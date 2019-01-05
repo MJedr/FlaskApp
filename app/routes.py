@@ -1,4 +1,4 @@
-from app import app
+from app import create_app
 from flask import render_template, flash, redirect, url_for
 from app.forms import LoginForm
 
@@ -7,7 +7,7 @@ from app.forms import LoginForm
 @app.route('/index')
 def index():
     user = {'username': 'Marcjanna'}
-    return render_template('index.html', title='Home', user=user)
+    return render_template('base.html',user=user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
