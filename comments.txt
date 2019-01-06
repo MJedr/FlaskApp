@@ -1,0 +1,10 @@
+to manage db from python shell it is neccessary to do:
+>>> from yourapp import create_app
+>>> app = create_app()
+>>> app.app_context().push()
+or
+def my_function():
+    with app.app_context():
+        user = db.User(...)
+        db.session.add(user)
+        db.session.commit()
