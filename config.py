@@ -112,8 +112,6 @@ class UnixConfig(ProductionConfig):
         app.logger.addHandler(syslog_handler)
 
 
-
-
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
@@ -121,6 +119,5 @@ config = {
     'heroku': HerokuConfig,
     'docker': DockerConfig,
     'unix': UnixConfig,
-
     'default': DevelopmentConfig
 }

@@ -12,12 +12,12 @@ migrate = Migrate()
 
 def create_app(config_name):
     app=Flask(__name__)
+    config_name = 'default'
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
     bootstrap.init_app(app)
-
 
     from app import models
     @app.route('/')
