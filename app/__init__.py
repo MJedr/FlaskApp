@@ -10,9 +10,6 @@ from logging.handlers import SMTPHandler
 from logging.handlers import RotatingFileHandler
 import os
 
-
-
-
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 migrate = Migrate()
@@ -22,6 +19,7 @@ def create_app(config_name):
     app = Flask(__name__)
     config_name = 'default'
     app.config.from_object(config[config_name])
+    app.secret_key = 'MarcysiaJestMistrzemProgramowania'
     db.init_app(app)
     migrate.init_app(app, db)
     bootstrap.init_app(app)
@@ -87,7 +85,7 @@ def create_app(config_name):
         form = EditProfileForm(current_user.username)
         if form.validate_on_submit():
             current_user.username = form.username.data
-            current_user.aboutMe = form.aboutMe.data
+            current_user.aboutMe = form.about_me.data
             db.session.commit()
             flash('Your changes have been saved.')
             return redirect(url_for('edit_profile'))

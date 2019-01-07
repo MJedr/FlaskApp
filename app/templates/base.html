@@ -15,7 +15,9 @@
     </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-            <li><a href="/login">Login</a></li><li><a href="/user/<username>">My profile</a></li><li><a href="logout">Logout</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/user/{{ current_user.username }}">My profile</a></li>
+                <li><a href="logout">Logout</a></li>
             </ul>
         </div>
     </div>
