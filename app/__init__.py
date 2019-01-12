@@ -111,7 +111,7 @@ def create_app(config_name):
         if group is None:
             flash('User {} not found.'.format(group))
             return redirect(url_for('index'))
-        current_user.join(group)
+        current_user.join_group(group)
         db.session.commit()
         flash('You are now a member of {}!'.format(group))
         return redirect(url_for('index', username=current_user.username))
@@ -126,7 +126,7 @@ def create_app(config_name):
         current_user.quit(group)
         db.session.commit()
         flash('You are not following {}.'.format(group))
-        return redirect(url_for('inex', username=current_user.username))
+        return redirect(url_for('index', username=current_user.username))
 
     if not app.debug:
         if app.config['MAIL_SERVER']:

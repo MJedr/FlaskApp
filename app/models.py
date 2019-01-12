@@ -26,9 +26,11 @@ class Artist(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     groups = db.relationship(
-        'Group', secondary=members,
-        backref=db.backref('members', lazy='dynamic'), lazy='dynamic')
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+        'Group',
+        secondary=members,
+        backref=db.backref('members', lazy='dynamic'),
+        lazy='dynamic'
+    )
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -41,17 +43,17 @@ class Artist(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
 
-    def join(self, group):
+    def is_in(self, group):
+        return self.groups.filter(
+            members.c.artist_id == group.id).count() > 0
+
+    def join_group(self, group):
         if not self.is_in(group):
             self.groups.append(group)
 
     def quit(self, group):
         if self.is_following(group):
             self.groups.remove(group)
-
-    def is_in(self, group):
-        return self.groups.filter(
-            members.c.artist_id == group.id).count() > 0
 
     def followed_posts(self):
         return Post.query.join(
@@ -66,7 +68,7 @@ class Group(db.Model):
     groupName= db.Column(db.String(140))
     groupDescription = db.Column(db.String(140))
     event=db.relationship('Event', backref='eventAuthor', lazy='dynamic')
-
+    posts=db.relationship('Post', backref='postAuthor', lazy='dynamic')
 
     def create_event(self, name, location, description, date):
         e = Event(eventName=name, location=location, eventDescription=description,
@@ -86,10 +88,12 @@ class Event(db.Model):
     eventDescription = db.Column(db.String(100))
     isFree = db.Column(db.Boolean)
     date = db.Column(db.DateTime)
-    group = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+    event_author = db.Column(
+        db.Integer, db.ForeignKey('group.id'), nullable=True
+    )
 
     def __repr__(self):
-        return('<Event: {}'.format(self.eventName))
+        return '<Event: {}'.format(self.eventName)
 
 
 class Post(db.Model):
@@ -98,7 +102,9 @@ class Post(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
+    post_author = db.Column(
+        db.Integer, db.ForeignKey('group.id'), nullable=True
+    )
 
 @login.user_loader
 def load_user(id):
