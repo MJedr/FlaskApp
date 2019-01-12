@@ -26,7 +26,7 @@ def create_app(config_name):
 
     from app import models
     from app.forms import LoginForm, RegistrationForm, EditProfileForm
-    from app.models import Artist, login
+    from app.models import Artist, login, Group, Event, Post
     login.init_app(app)
 
 
@@ -103,6 +103,30 @@ def create_app(config_name):
     def internal_error(error):
         db.session.rollback()
         return render_template('500.html'), 500
+
+    @app.route('/join/<group>')
+    @login_required
+    def join(group):
+        group = Group.query.filter_by(groupName=group).first()
+        if group is None:
+            flash('User {} not found.'.format(group))
+            return redirect(url_for('index'))
+        current_user.join(group)
+        db.session.commit()
+        flash('You are now a member of {}!'.format(group))
+        return redirect(url_for('index', username=current_user.username))
+
+    @app.route('/quit/<group>')
+    @login_required
+    def unfollow(group):
+        group = Group.query.filter_by(groupName=group).first()
+        if group is None:
+            flash('User {} not found.'.format(group))
+            return redirect(url_for('index'))
+        current_user.quit(group)
+        db.session.commit()
+        flash('You are not following {}.'.format(group))
+        return redirect(url_for('inex', username=current_user.username))
 
     if not app.debug:
         if app.config['MAIL_SERVER']:
