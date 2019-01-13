@@ -11,7 +11,11 @@
         </thead>
         {% for group in groups %}
             <tr>
-                <td> {{ group.groupName }}</td> {# this should be a link to a group details page #}
+                <td>
+                    <a href={{ url_for('group_details', groupname=group.groupName)}} >
+                        {{ group.groupName }}
+                    </a>
+                </td> {# this should be a link to a group details page #}
                 <td> {{ group.groupDescription }} </td>
                 <td>
 {#                    TODO: make a mechanism of verification if user is in group #}

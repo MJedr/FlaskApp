@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>{{ group.groupName }}</h2>
+        <h4>Description:</h4>
+        </br>
+        <p> {{ group.groupDescription }} </p>
+        <table class="table table-stripped">
+{#            TODO: to make it work you have to pass list of members #}
+{#        {% for member in members %}#}
+{#            <tr>#}
+{#                <td> {{ member.username }}</td> {# TODO: this should be a link to a user details page #}
+{#                <td> {{ member.aboutMe}} </td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+    </table>
+    </div>
+{% endblock %}

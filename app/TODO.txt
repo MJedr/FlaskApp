@@ -1,9 +1,12 @@
 Grupy
     - strona grupy (group-details)
-        - nazwa
-        - opis
+        DONE - nazwa
+        DONE - opis
         - członkowie
+    - informacja w liście i w group_detail jeśli jesteś adminem grupy
+    - jeśli jesteś adminem grupy to opcja usuwania członków
     DONE - link z dołączaniem do grupy na liście i w group-details
+    - jak jestes w jakiejs grupie to zamiast join powinno byc exit
 
 Posty
     - Nowy post (formularz, metoda, templatka- wszystko tak jak w grupach)
@@ -21,5 +24,8 @@ Eventy
         - ale jak będziesz chciałą zaszaleć to możesz dodać filtrowanie po np lokalizacji
     - Dodać eventy do menu
 
-Wylogowywanie
-    -sprawić żeby działało
+Mechanizmy logowania
+    DONE -sprawić żeby działało
+    - komunikat o złym haśle przy próbie logowania (albo lepiej naprawienie flasha)
+    - w "about me" link do edycji profilu
+    - przy rejestracji dodać pole "About me"

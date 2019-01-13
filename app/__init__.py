@@ -26,7 +26,7 @@ def create_app(config_name):
 
     from app import models
     from app.forms import LoginForm, RegistrationForm, EditProfileForm, GroupCreationForm
-    from app.models import Artist, login, Group, Event, Post
+    from app.models import Artist, login, Group, Event, Post, members
     login.init_app(app)
 
 
@@ -34,20 +34,6 @@ def create_app(config_name):
     @app.route('/index')
     def index():
         return render_template('base.html')
-
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        if current_user.is_authenticated:
-            return redirect(url_for('index'))
-        form = LoginForm()
-        if form.validate_on_submit():
-            user = Artist.query.filter_by(username=form.username.data).first()
-            if user is None or not user.check_password(form.password.data):
-                flash('Invalid username or password')
-                return redirect(url_for('login'))
-            login_user(user, remember=form.remember_me.data)
-            return redirect(url_for('index'))
-        return render_template('login.html', title='Sign In', form=form)
 
     @app.route('/register', methods=['GET', 'POST'])
     def register():
@@ -63,13 +49,43 @@ def create_app(config_name):
             return redirect(url_for('login'))
         return render_template('register.html', title='Register', form=form)
 
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = Artist.query.filter_by(username=form.username.data).first()
+            if user is None or not user.check_password(form.password.data):
+                flash('Invalid username or password')
+                return redirect(url_for('login'))
+            login_user(user, remember=form.remember_me.data)
+            return redirect(url_for('index'))
+        return render_template('login.html', title='Sign In', form=form)
+
+    @app.route('/logout')
+    def logout():
+        if current_user.is_authenticated:
+            logout_user()
+            return redirect(url_for('index'))
+
+
     @app.route('/groups')
     @login_required
     def group_list():
         groups = Group.query.all()
-        return render_template("groups.html",
+        return render_template("groups/groups.html",
                                title="Groups",
                                groups=groups)
+
+    @app.route('/group/<groupname>')
+    @login_required
+    def group_details(groupname):
+        group = Group.query.filter_by(groupName=groupname).first_or_404()
+        # group_members = members.query.filer_by(group_id=group.id)
+        return render_template('groups/group_details.html', group=group,
+                               # members=group_members
+               )
 
     @app.route('/group/new',methods=['GET', 'POST'])
     @login_required
@@ -83,18 +99,20 @@ def create_app(config_name):
                 db.session.commit()
                 flash('You have succesfully created a group')
                 return redirect(url_for('group_list'))
-            return render_template('create_group.html',
+            return render_template('groups/create_group.html',
                                    title='New Group', form=form)
+
+    @app.route('/users')
+    @login_required
+    def users():
+        artists = Artist.query.all()
+        return render_template('users/users.html', artists=artists)
 
     @app.route('/user/<username>')
     @login_required
-    def user(username):
+    def user_details(username):
         user = Artist.query.filter_by(username=username).first_or_404()
-        posts = [
-            {'author': user, 'body': 'Test post #1'},
-            {'author': user, 'body': 'Test post #2'}
-        ]
-        return render_template('user.html', user=user)
+        return render_template('users/user_details.html', user=user)
 
     @app.before_request
     def before_request():
@@ -118,14 +136,18 @@ def create_app(config_name):
         return render_template('edit_profile.html', title='Edit Profile',
                                form=form)
 
+    @app.errorhandler(401)
+    def unauthorized_error(error):
+        return render_template('errors/401.html'), 401
+
     @app.errorhandler(404)
     def not_found_error(error):
-        return render_template('404.html'), 404
+        return render_template('errors/404.html'), 404
 
     @app.errorhandler(500)
     def internal_error(error):
         db.session.rollback()
-        return render_template('500.html'), 500
+        return render_template('errors/500.html'), 500
 
     @app.route('/join/<group>')
     @login_required
