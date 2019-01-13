@@ -25,7 +25,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
 
     from app import models
-    from app.forms import LoginForm, RegistrationForm, EditProfileForm
+    from app.forms import LoginForm, RegistrationForm, EditProfileForm, GroupCreationForm
     from app.models import Artist, login, Group, Event, Post
     login.init_app(app)
 
@@ -62,6 +62,29 @@ def create_app(config_name):
             flash('Congratulations, you are now a registered user!')
             return redirect(url_for('login'))
         return render_template('register.html', title='Register', form=form)
+
+    @app.route('/groups')
+    @login_required
+    def group_list():
+        groups = Group.query.all()
+        return render_template("groups.html",
+                               title="Groups",
+                               groups=groups)
+
+    @app.route('/group/new',methods=['GET', 'POST'])
+    @login_required
+    def new_group():
+        if current_user.is_authenticated:
+            form = GroupCreationForm()
+            if form.validate_on_submit():
+                group = Group(groupName=form.groupname.data,
+                              groupDescription=form.description.data)
+                db.session.add(group)
+                db.session.commit()
+                flash('You have succesfully created a group')
+                return redirect(url_for('group_list'))
+            return render_template('create_group.html',
+                                   title='New Group', form=form)
 
     @app.route('/user/<username>')
     @login_required
@@ -106,7 +129,7 @@ def create_app(config_name):
 
     @app.route('/join/<group>')
     @login_required
-    def join(group):
+    def join_group(group):
         group = Group.query.filter_by(groupName=group).first()
         if group is None:
             flash('User {} not found.'.format(group))
@@ -118,15 +141,15 @@ def create_app(config_name):
 
     @app.route('/quit/<group>')
     @login_required
-    def unfollow(group):
+    def quit_group(group):
         group = Group.query.filter_by(groupName=group).first()
         if group is None:
             flash('User {} not found.'.format(group))
-            return redirect(url_for('index'))
+            return redirect(url_for('groups'))
         current_user.quit(group)
         db.session.commit()
         flash('You are not following {}.'.format(group))
-        return redirect(url_for('index', username=current_user.username))
+        return redirect(url_for('groups', username=current_user.username))
 
     if not app.debug:
         if app.config['MAIL_SERVER']:

@@ -10,6 +10,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -27,6 +28,11 @@ class RegistrationForm(FlaskForm):
         user = Artist.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use another email adress.')
+
+class GroupCreationForm(FlaskForm):
+    groupname = StringField('Groupname', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Create')
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])

@@ -17,16 +17,18 @@
             <ul class="nav navbar-nav">
                 <li><a href="/login">Login</a></li>
                 <li><a href="/user/{{ current_user.username }}">My profile</a></li>
+                <li><a href="/groups">Groups</a></li>
                 <li><a href="logout">Logout</a></li>
             </ul>
         </div>
     </div>
 </div>
 {% endblock %}
-{% block content %}
 <div class="container">
+{% block content %}
     <div class="page.header">
         <h1>Hello, {{ current_user.username }}!</h1>
     </div>
-</div>
 {% endblock %}
+</div>
+

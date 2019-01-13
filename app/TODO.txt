@@ -1,0 +1,25 @@
+Grupy
+    - strona grupy (group-details)
+        - nazwa
+        - opis
+        - członkowie
+    DONE - link z dołączaniem do grupy na liście i w group-details
+
+Posty
+    - Nowy post (formularz, metoda, templatka- wszystko tak jak w grupach)
+    - Lista postów (taka troche tablica, sortowana po czasie - bardzo podobnie jak w liscie grup)
+
+Eventy
+    - Strona eventu (event-details)
+        - Nazwa
+        - lokacja
+        - ...
+        - link do grupy która to założyła
+    - Nowy event (formularz, metoda, templatka- wszystko tak jak w grupach)
+    - Lista eventów
+        - sortowanie moze byc domyslnie po czasie
+        - ale jak będziesz chciałą zaszaleć to możesz dodać filtrowanie po np lokalizacji
+    - Dodać eventy do menu
+
+Wylogowywanie
+    -sprawić żeby działało
