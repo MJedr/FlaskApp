@@ -1,19 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="container">
+    <br class="container">
         <h2>{{ group.groupName }}</h2>
         <h4>Description:</h4>
         </br>
         <p> {{ group.groupDescription }} </p>
+        </br>
+        <a href="{{ url_for('add_event', group=group.groupName) }}">
+            <p> Add event</p>
+        </a>
         <table class="table table-stripped">
+        <thead>
+            <th> Name </th>
+            <th> About me </th>
+        </thead>
 {#            TODO: to make it work you have to pass list of members #}
-{#        {% for member in members %}#}
-{#            <tr>#}
-{#                <td> {{ member.username }}</td> {# TODO: this should be a link to a user details page #}
-{#                <td> {{ member.aboutMe}} </td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
+          {% for member in members %}
+              <tr>
+               <td> {{ member.username }}</td> <a href={{ url_for('user_details', username=member.username) }} >
+                <td> {{ member.aboutMe}} </td>
+              </tr>
+          {% endfor %}
     </table>
     </div>
 {% endblock %}

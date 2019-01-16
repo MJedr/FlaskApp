@@ -2,6 +2,8 @@ from flask import Flask, render_template, flash, url_for, redirect, request
 from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+
+
 from config import config
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 from datetime import datetime
@@ -25,7 +27,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
 
     from app import models
-    from app.forms import LoginForm, RegistrationForm, EditProfileForm, GroupCreationForm
+    from app.forms import LoginForm, RegistrationForm, EditProfileForm, GroupCreationForm, AddEventForm
     from app.models import Artist, login, Group, Event, Post, members
     login.init_app(app)
 
@@ -82,9 +84,9 @@ def create_app(config_name):
     @login_required
     def group_details(groupname):
         group = Group.query.filter_by(groupName=groupname).first_or_404()
-        # group_members = members.query.filer_by(group_id=group.id)
+        group_members = db.session.query(members).filter_by(group_id=group.id).all()
         return render_template('groups/group_details.html', group=group,
-                               # members=group_members
+                               members=group_members
                )
 
     @app.route('/group/new',methods=['GET', 'POST'])
@@ -172,6 +174,48 @@ def create_app(config_name):
         db.session.commit()
         flash('You are not following {}.'.format(group))
         return redirect(url_for('groups', username=current_user.username))
+
+    @app.route('/events')
+    @login_required
+    def events():
+        events = Event.query.all()
+        return render_template('events.html', events=events)
+
+    @app.route('/addevent/<group>', methods=['GET', 'POST'])
+    @login_required
+    def add_event(group):
+        group = Group.query.filter_by(groupName=group).first()
+        if group is None:
+            flash('User {} not found.'.format(group))
+            return redirect(url_for('index'))
+        group_members = db.session.query(members).filter_by(group_id=group.id,
+                                                            artist_id=current_user.id).all()
+        print(group_members)
+        if len(group_members)==0:
+            flash('User {} not authorized to add event for the group.'.format(current_user))
+            return redirect(url_for('index'))
+        eventform = AddEventForm()
+        if eventform.validate_on_submit():
+            event = Event(eventName=eventform.eventname.data,
+                          date=eventform.date.data,
+                          location=eventform.location.data,
+                          isFree=eventform.price.data,
+                          eventDescription=eventform.description.data,
+                          event_author=group.id)
+            db.session.add(event)
+            db.session.commit()
+            flash('You have succesfully created a group')
+            return redirect(url_for('group_list'))
+        return render_template('add_event.html',
+                               title='New Group', form=eventform)
+
+    @app.route('/event_details/<eventname>')
+    @login_required
+    def event_details(eventname):
+        event = Event.query.filter_by(eventName=eventname).first_or_404()
+        return render_template('event_details.html', event=event
+               )
+
 
     if not app.debug:
         if app.config['MAIL_SERVER']:

@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <br class="container">
+        <h2>{{ event.eventName }}</h2>
+        <h4>Venue: {{ event.location }}</h4>
+        <h4>Date: {{ event.date }}</h4>
+        </br>
+        <h4>Description:</h4>
+        </br>
+        <p> {{ event.eventDescription }} </p>
+
+{% endblock %}

@@ -77,7 +77,7 @@ class Group(db.Model):
 
 
     def __repr__(self):
-        return '<Post {}>'.format(self.groupName)
+        return '<Group {}>'.format(self.groupName)
 
 class Event(db.Model):
     __tablename__='events'
@@ -91,6 +91,10 @@ class Event(db.Model):
     event_author = db.Column(
         db.Integer, db.ForeignKey('group.id'), nullable=True
     )
+
+    def group_name(self):
+        return Group.query.get(self.event_author).groupName
+
 
     def __repr__(self):
         return '<Event: {}'.format(self.eventName)

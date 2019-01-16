@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, DateField, TimeField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import Artist
-
+from werkzeug.datastructures import MultiDict
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -48,3 +48,11 @@ class EditProfileForm(FlaskForm):
             user = Artist.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError('Please use a different username.')
+
+class AddEventForm(FlaskForm):
+    eventname = StringField('Name', validators=[DataRequired()])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired("Please enter the event fate in format YYYY-MM-DD.")])
+    location = StringField('Venue', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    price = BooleanField('Free', validators=[DataRequired()])
+    submit = SubmitField('Create')
