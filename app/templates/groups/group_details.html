@@ -16,7 +16,7 @@
             <th> About me </th>
         </thead>
 {#            TODO: to make it work you have to pass list of members #}
-          {% for member in members %}
+          {% for member in group.get_members() %}
               <tr>
                <td> {{ member.username }}</td> <a href={{ url_for('user_details', username=member.username) }} >
                 <td> {{ member.aboutMe}} </td>

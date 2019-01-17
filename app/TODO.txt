@@ -1,11 +1,7 @@
 Grupy
-    - strona grupy (group-details)
-        DONE - nazwa
-        DONE - opis
-        - członkowie
     - informacja w liście i w group_detail jeśli jesteś adminem grupy
     - jeśli jesteś adminem grupy to opcja usuwania członków
-    DONE - link z dołączaniem do grupy na liście i w group-details
+    - zablokować opcje dodawania do grupy więcej niż raz
     - jak jestes w jakiejs grupie to zamiast join powinno byc exit
 
 Posty
@@ -14,18 +10,22 @@ Posty
 
 Eventy
     - Strona eventu (event-details)
-        - Nazwa
-        - lokacja
-        - ...
         - link do grupy która to założyła
-    - Nowy event (formularz, metoda, templatka- wszystko tak jak w grupach)
     - Lista eventów
         - sortowanie moze byc domyslnie po czasie
         - ale jak będziesz chciałą zaszaleć to możesz dodać filtrowanie po np lokalizacji
-    - Dodać eventy do menu
 
 Mechanizmy logowania
-    DONE -sprawić żeby działało
     - komunikat o złym haśle przy próbie logowania (albo lepiej naprawienie flasha)
     - w "about me" link do edycji profilu
+    - może rozwijany element paska menu grupujący opcje użytkownika
+        - Marcysia >
+            > About me
+            > Edit profile
+            > Logout
     - przy rejestracji dodać pole "About me"
+
+Design
+    - Dodać jakieś logo obok Nazwy
+    - Dodać do templatki base.html jakieś marginy dla głównego diva z treścią bo to wygląda tragicznie
+        - działa np na widokach list, ale przydałoby się to zrobić odgórnie

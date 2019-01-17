@@ -84,10 +84,7 @@ def create_app(config_name):
     @login_required
     def group_details(groupname):
         group = Group.query.filter_by(groupName=groupname).first_or_404()
-        group_members = db.session.query(members).filter_by(group_id=group.id).all()
-        return render_template('groups/group_details.html', group=group,
-                               members=group_members
-               )
+        return render_template('groups/group_details.html', group=group)
 
     @app.route('/group/new',methods=['GET', 'POST'])
     @login_required
@@ -179,7 +176,7 @@ def create_app(config_name):
     @login_required
     def events():
         events = Event.query.all()
-        return render_template('events.html', events=events)
+        return render_template('events/events.html', events=events)
 
     @app.route('/addevent/<group>', methods=['GET', 'POST'])
     @login_required
@@ -188,11 +185,12 @@ def create_app(config_name):
         if group is None:
             flash('User {} not found.'.format(group))
             return redirect(url_for('index'))
-        group_members = db.session.query(members).filter_by(group_id=group.id,
-                                                            artist_id=current_user.id).all()
-        print(group_members)
-        if len(group_members)==0:
-            flash('User {} not authorized to add event for the group.'.format(current_user))
+        is_member = db.session.query(members).filter_by(
+            group_id=group.id,
+            artist_id=current_user.id).all()
+        if len(is_member)==0:
+            flash('User {} not authorized to add event for the group.'.format(
+                current_user))
             return redirect(url_for('index'))
         eventform = AddEventForm()
         if eventform.validate_on_submit():
@@ -206,15 +204,14 @@ def create_app(config_name):
             db.session.commit()
             flash('You have succesfully created a group')
             return redirect(url_for('group_list'))
-        return render_template('add_event.html',
+        return render_template('events/add_event.html',
                                title='New Group', form=eventform)
 
     @app.route('/event_details/<eventname>')
     @login_required
     def event_details(eventname):
         event = Event.query.filter_by(eventName=eventname).first_or_404()
-        return render_template('event_details.html', event=event
-               )
+        return render_template('events/event_details.html', event=event)
 
 
     if not app.debug:

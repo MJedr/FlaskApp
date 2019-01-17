@@ -75,6 +75,11 @@ class Group(db.Model):
                   date=date, group=self.id)
         return e
 
+    def get_members(self):
+        group_members = db.session.query(members).filter_by(
+            group_id=self.id).all()
+        return [Artist.query.get(m.artist_id) for m in group_members]
+
 
     def __repr__(self):
         return '<Group {}>'.format(self.groupName)
