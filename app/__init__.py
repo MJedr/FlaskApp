@@ -27,7 +27,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
 
     from app import models
-    from app.forms import LoginForm, RegistrationForm, EditProfileForm, GroupCreationForm, AddEventForm
+    from app.forms import LoginForm, RegistrationForm, EditProfileForm, GroupCreationForm, AddEventForm, AddGroupPostForm
     from app.models import Artist, login, Group, Event, Post, members
     login.init_app(app)
 
@@ -78,13 +78,21 @@ def create_app(config_name):
         groups = Group.query.all()
         return render_template("groups/groups.html",
                                title="Groups",
-                               groups=groups)
+                               groups=groups,
+                               user=current_user)
 
-    @app.route('/group/<groupname>')
+    @app.route('/group/<groupname>',methods=['GET', 'POST'])
     @login_required
     def group_details(groupname):
         group = Group.query.filter_by(groupName=groupname).first_or_404()
-        return render_template('groups/group_details.html', group=group)
+        form=AddGroupPostForm()
+        posts = Post.query.filter_by(post_group=group.id).all()
+        group_members = db.session.query(members).filter_by(group_id=group.id).all()
+        return render_template('groups/group_details.html', group=group,
+                               members=group_members,
+                               user=current_user,
+                               form=form,
+                               posts=posts)
 
     @app.route('/group/new',methods=['GET', 'POST'])
     @login_required
@@ -93,7 +101,8 @@ def create_app(config_name):
             form = GroupCreationForm()
             if form.validate_on_submit():
                 group = Group(groupName=form.groupname.data,
-                              groupDescription=form.description.data)
+                              groupDescription=form.description.data,
+                              admin=current_user.id)
                 db.session.add(group)
                 db.session.commit()
                 flash('You have succesfully created a group')

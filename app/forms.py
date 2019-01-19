@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextA
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import Artist
 from werkzeug.datastructures import MultiDict
+import datetime
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -56,3 +57,9 @@ class AddEventForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired()])
     price = BooleanField('Free', validators=[DataRequired()])
     submit = SubmitField('Create')
+
+
+class AddGroupPostForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    post = TextAreaField('Please, type your message:', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')

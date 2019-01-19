@@ -18,14 +18,13 @@
                 </td> {# this should be a link to a group details page #}
                 <td> {{ group.groupDescription }} </td>
                 <td>
-{#                    TODO: make a mechanism of verification if user is in group #}
-{#                    {% if user.is_in_group(group) %}#}
-{#                    <p>You are a member</p>#}
-{#                    {% else %}#}
+                    {% if user.is_in(group) %}
+                    <p>You are a member</p>
+                    {% else %}
                     <a href="{{ url_for('join_group', group=group.groupName) }}">
                         <p> Join group</p>
                     </a>
-{#                    {% endif %}#}
+                    {% endif %}
 
                 </td>
             </tr>

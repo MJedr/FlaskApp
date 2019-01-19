@@ -7,9 +7,11 @@
         </br>
         <p> {{ group.groupDescription }} </p>
         </br>
-        <a href="{{ url_for('add_event', group=group.groupName) }}">
+        {% if user.is_in(group) %}
+            <a href="{{ url_for('add_event', group=group.groupName) }}">
             <p> Add event</p>
         </a>
+        {% endif %}
         <table class="table table-stripped">
         <thead>
             <th> Name </th>
@@ -23,5 +25,38 @@
               </tr>
           {% endfor %}
     </table>
+    </br>
+
+{#    {% if user.is_in(group) %}#}
+{#        <h3>Posts</h3>#}
+{#        <form action="" method="post">#}
+{#            {{ form.hidden_tag() }}#}
+{#            <p>#}
+{#                {{ form.username.label }}<br>#}
+{#                {{ form.username(size=32) }}<br>#}
+{#                {% for error in form.username.errors %}#}
+{#                <span style="color: red;">[{{ error }}]</span>#}
+{#                {% endfor %}#}
+{#            </p>#}
+{#            <p>#}
+{#                {{ form.post.label }}<br>#}
+{#                {{ form.post(cols=50, rows=4) }}<br>#}
+{#                {% for error in form.post.errors %}#}
+{#                <span style="color: red;">[{{ error }}]</span>#}
+{#                {% endfor %}#}
+{#            </p>#}
+{#            <p>{{ form.submit() }}</p>#}
+{#        </form>#}
+{#         {% for post in posts %}#}
+{#             <table>#}
+{#                 <tr valign="top">#}
+{#          <td><img src="{{ post.post_author.avatar(50) }}"></td><td><i>{{ post.post_author.username }}#}
+{#               <td>      says:</i><br>{{ post.body }}</td>#}
+{#              </tr>#}
+{#          </table>#}
+{#         {% endfor %}#}
+{#    {%  endif %}#}
+
+
     </div>
 {% endblock %}

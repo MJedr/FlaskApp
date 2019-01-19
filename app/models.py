@@ -31,6 +31,7 @@ class Artist(UserMixin, db.Model):
         backref=db.backref('members', lazy='dynamic'),
         lazy='dynamic'
     )
+    posts = db.relationship('Post', backref='postAuthor', lazy='dynamic')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -60,6 +61,7 @@ class Artist(UserMixin, db.Model):
             members, (members.c.group_id == Post.user_id)).order_by(
             Post.timestamp.desc())
 
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -68,7 +70,10 @@ class Group(db.Model):
     groupName= db.Column(db.String(140))
     groupDescription = db.Column(db.String(140))
     event=db.relationship('Event', backref='eventAuthor', lazy='dynamic')
-    posts=db.relationship('Post', backref='postAuthor', lazy='dynamic')
+    posts=db.relationship('Post', backref='postGroup', lazy='dynamic')
+    admin = db.Column(
+        db.Integer, db.ForeignKey('artist.id'), nullable=True
+    )
 
     def create_event(self, name, location, description, date):
         e = Event(eventName=name, location=location, eventDescription=description,
@@ -111,8 +116,11 @@ class Post(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    post_author = db.Column(
+    post_group = db.Column(
         db.Integer, db.ForeignKey('group.id'), nullable=True
+    )
+    post_author =  db.Column(
+        db.Integer, db.ForeignKey('artist.id'), nullable=True
     )
 
 @login.user_loader
