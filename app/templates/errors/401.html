@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>You have no permissions to access this site. </h3>
+    <img class="float-right" src="https://buvniecibas-abc.lv/wp-content/uploads/products/86875_asAwWkCobzQUxd2Otcjx.jpg">
+       <p> Please <a href="{{ url_for('login') }}">Log In</a> or
+           <a href="{{ url_for('register') }}">Register</a>
+       </p>
+{% endblock %}

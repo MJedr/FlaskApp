@@ -1,14 +1,16 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, DateField, TimeField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import Artist
-
+from werkzeug.datastructures import MultiDict
+import datetime
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -28,6 +30,11 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Please use another email adress.')
 
+class GroupCreationForm(FlaskForm):
+    groupname = StringField('Groupname', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Create')
+
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
@@ -42,3 +49,16 @@ class EditProfileForm(FlaskForm):
             user = Artist.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError('Please use a different username.')
+
+class AddEventForm(FlaskForm):
+    eventname = StringField('Name', validators=[DataRequired()])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired("Please enter the event fate in format YYYY-MM-DD.")])
+    location = StringField('Venue', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    price = BooleanField('Free', validators=[DataRequired()])
+    submit = SubmitField('Create')
+
+
+class AddGroupPostForm(FlaskForm):
+    post = TextAreaField('Please, type your message:', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')

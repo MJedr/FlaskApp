@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+    <h2>List of all users</h2>
+    <table class="table table-striped">
+        <thead>
+        <th> Name </th>
+        <th> About me </th>
+        <th> Last seen </th>
+        </thead>
+        {% for artist in artists %}
+            <tr>
+                <td>
+                    <a href={{ url_for('user_details', username=artist.username) }} >
+                        {{ artist.username }}
+                    </a>
+                </td>
+                <td> {{ artist.aboutMe }} </td>
+                <td> {{ artist.last_seen }} </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}

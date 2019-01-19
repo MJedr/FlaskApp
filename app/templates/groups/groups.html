@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container border">
+    <h2>List of all groups</h2>
+    <table class="table table-striped">
+        <thead>
+        <th> Name </th>
+        <th> Description </th>
+        <th> Join </th>
+        </thead>
+        {% for group in groups %}
+            <tr>
+                <td>
+                    <a href={{ url_for('group_details', groupname=group.groupName)}} >
+                        {{ group.groupName }}
+                    </a>
+                </td> {# this should be a link to a group details page #}
+                <td> {{ group.groupDescription }} </td>
+                <td>
+                    {% if user.is_in(group) %}
+                    <p>You are a member</p>
+                    {% else %}
+                    <a href="{{ url_for('join_group', group=group.groupName) }}">
+                        <p> Join group</p>
+                    </a>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('new_group') }}"><button>+ Add group</button></a>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>{{ group.groupName }}</h2>
+        <h4>Description:</h4>
+        </br>
+        <p> {{ group.groupDescription }} </p>
+        </br>
+        {% if user.is_in(group) %}
+            <a href="{{ url_for('add_event', group=group.groupName) }}">
+            <p> Add event</p>
+        </a>
+        {% endif %}
+        <table class="table table-stripped">
+        <thead>
+            <th> Name </th>
+            <th> About me </th>
+        </thead>
+{#            TODO: to make it work you have to pass list of members #}
+          {% for member in group.get_members() %}
+              <tr>
+               <td>
+                   <a href={{ url_for('user_details', username=member.username) }} >
+                   {{ member.username }}</a>
+               </td>
+                <td> {{ member.aboutMe}} </td>
+              </tr>
+          {% endfor %}
+    </table>
+    </br>
+    <div class="row border">
+        {% if user.is_in(group) %}
+            <div class="col-md-6">
+                <h4>Add Post</h4>
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.post.label }}<br>
+                        {{ form.post(cols=50, rows=4) }}<br>
+                        {% for error in form.post.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>{{ form.submit() }}</p>
+                </form>
+            </div>
+            {% if posts is defined and posts[0] is defined %}
+                <h4>Posts</h4>
+                <div class="col-md-6">
+                <table>
+                 {% for post in posts %}
+                         <tr style="display: block; padding: 5px;" valign="top">
+                             <td>
+                                 <img style="margin-right: 5px" src="{{ post.get_author().avatar(50) }}">
+                             </td>
+                             <td>
+                                 <i style="font-size: 9pt;">{{ post.get_author().username }} says:</i>
+                                 </br>
+                                 <b> {{ post.body }} </b>
+                                </br>
+                                <p style="color:dimgray; font-size: 9pt;">
+                                    {{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                                </p>
+                             </td>
+                         </tr>
+                 {% endfor %}
+                </table>
+            {% endif %}
+            </div>
+        {%  endif %}
+    </div>
+
+    </div>
+{% endblock %}

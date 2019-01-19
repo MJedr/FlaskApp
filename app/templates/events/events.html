@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+    <h2>List of all events</h2>
+    <table class="table table-striped">
+        <thead>
+        <th> Name </th>
+        <th> Group </th>
+        <th> Date </th>
+        <th> Venue </th>
+        </thead>
+        {% for event in events %}
+            <tr>
+                <td>
+                    <a href={{ url_for('event_details', eventname=event.eventName) }} >
+                        {{ event.eventName }}
+                    </a>
+                </td>
+                <td>
+{#                    <a href={{ url_for('event_details', eventname=event.eventName) }} >#}
+                        {{ event.group_name() }}
+                    </a>
+                </td>
+                <td> {{ event.date }} </td>
+                <td> {{ event.location }} </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}

@@ -9,11 +9,11 @@
     <h1>User: {{ user.username }}</h1>
     <hr>
     <p>
-    {{ current_user.username }} </b><br>
+    {{ user.username }} </b><br>
         <br>
         About me: <br>
-        {{ current_user.aboutMe}}
+        {{ user.aboutMe}}
         <br>
-        Last activity: {{ current_user.last_seen }}
+        Last activity: {{ user.last_seen }}
     </p>
 {% endblock %}
