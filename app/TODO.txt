@@ -2,11 +2,6 @@ Grupy
     - informacja w liście i w group_detail jeśli jesteś adminem grupy
     - jeśli jesteś adminem grupy to opcja usuwania członków
     - zablokować opcje dodawania do grupy więcej niż raz
-    - jak jestes w jakiejs grupie to zamiast join powinno byc exit
-
-Posty
-    - Nowy post (formularz, metoda, templatka- wszystko tak jak w grupach)
-    - Lista postów (taka troche tablica, sortowana po czasie - bardzo podobnie jak w liscie grup)
 
 Eventy
     - Strona eventu (event-details)
@@ -27,5 +22,6 @@ Mechanizmy logowania
 
 Design
     - Dodać jakieś logo obok Nazwy
+    - Przenieść posty na prawo (googluj css float container + ew bootstrap)
     - Dodać do templatki base.html jakieś marginy dla głównego diva z treścią bo to wygląda tragicznie
         - działa np na widokach list, ale przydałoby się to zrobić odgórnie

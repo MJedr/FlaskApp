@@ -84,15 +84,31 @@ def create_app(config_name):
     @app.route('/group/<groupname>',methods=['GET', 'POST'])
     @login_required
     def group_details(groupname):
-        group = Group.query.filter_by(groupName=groupname).first_or_404()
-        form=AddGroupPostForm()
-        posts = Post.query.filter_by(post_group=group.id).all()
-        group_members = db.session.query(members).filter_by(group_id=group.id).all()
-        return render_template('groups/group_details.html', group=group,
-                               members=group_members,
-                               user=current_user,
-                               form=form,
-                               posts=posts)
+        if request.method=='GET':
+            group = Group.query.filter_by(groupName=groupname).first_or_404()
+            form = AddGroupPostForm()
+            posts = Post.query.filter_by(post_group=group.id).all()
+            group_members = db.session.query(members).filter_by(
+                group_id=group.id).all()
+            return render_template('groups/group_details.html', group=group,
+                                   members=group_members,
+                                   user=current_user,
+                                   form=form,
+                                   posts=posts)
+        elif request.method=='POST':
+            group = Group.query.filter_by(groupName=groupname).first_or_404()
+            if current_user.is_authenticated:
+                form = AddGroupPostForm()
+                if form.validate_on_submit():
+                    post = Post(post_group=group.id,
+                                post_author=current_user.id,
+                                body=form.post.data)
+                    db.session.add(post)
+                    db.session.commit()
+                    flash('You have succesfully created a post')
+                return redirect(
+                    url_for('group_details', groupname=groupname))
+
 
     @app.route('/group/new',methods=['GET', 'POST'])
     @login_required

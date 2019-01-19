@@ -60,6 +60,5 @@ class AddEventForm(FlaskForm):
 
 
 class AddGroupPostForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
     post = TextAreaField('Please, type your message:', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')

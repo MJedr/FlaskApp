@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <br class="container">
+    <div class="container">
         <h2>{{ group.groupName }}</h2>
         <h4>Description:</h4>
         </br>
@@ -20,43 +20,56 @@
 {#            TODO: to make it work you have to pass list of members #}
           {% for member in group.get_members() %}
               <tr>
-               <td> {{ member.username }}</td> <a href={{ url_for('user_details', username=member.username) }} >
+               <td>
+                   <a href={{ url_for('user_details', username=member.username) }} >
+                   {{ member.username }}</a>
+               </td>
                 <td> {{ member.aboutMe}} </td>
               </tr>
           {% endfor %}
     </table>
     </br>
-
-{#    {% if user.is_in(group) %}#}
-{#        <h3>Posts</h3>#}
-{#        <form action="" method="post">#}
-{#            {{ form.hidden_tag() }}#}
-{#            <p>#}
-{#                {{ form.username.label }}<br>#}
-{#                {{ form.username(size=32) }}<br>#}
-{#                {% for error in form.username.errors %}#}
-{#                <span style="color: red;">[{{ error }}]</span>#}
-{#                {% endfor %}#}
-{#            </p>#}
-{#            <p>#}
-{#                {{ form.post.label }}<br>#}
-{#                {{ form.post(cols=50, rows=4) }}<br>#}
-{#                {% for error in form.post.errors %}#}
-{#                <span style="color: red;">[{{ error }}]</span>#}
-{#                {% endfor %}#}
-{#            </p>#}
-{#            <p>{{ form.submit() }}</p>#}
-{#        </form>#}
-{#         {% for post in posts %}#}
-{#             <table>#}
-{#                 <tr valign="top">#}
-{#          <td><img src="{{ post.post_author.avatar(50) }}"></td><td><i>{{ post.post_author.username }}#}
-{#               <td>      says:</i><br>{{ post.body }}</td>#}
-{#              </tr>#}
-{#          </table>#}
-{#         {% endfor %}#}
-{#    {%  endif %}#}
-
+    <div class="row border">
+        {% if user.is_in(group) %}
+            <div class="col-md-6">
+                <h4>Add Post</h4>
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.post.label }}<br>
+                        {{ form.post(cols=50, rows=4) }}<br>
+                        {% for error in form.post.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </p>
+                    <p>{{ form.submit() }}</p>
+                </form>
+            </div>
+            {% if posts is defined and posts[0] is defined %}
+                <h4>Posts</h4>
+                <div class="col-md-6">
+                <table>
+                 {% for post in posts %}
+                         <tr style="display: block; padding: 5px;" valign="top">
+                             <td>
+                                 <img style="margin-right: 5px" src="{{ post.get_author().avatar(50) }}">
+                             </td>
+                             <td>
+                                 <i style="font-size: 9pt;">{{ post.get_author().username }} says:</i>
+                                 </br>
+                                 <b> {{ post.body }} </b>
+                                </br>
+                                <p style="color:dimgray; font-size: 9pt;">
+                                    {{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                                </p>
+                             </td>
+                         </tr>
+                 {% endfor %}
+                </table>
+            {% endif %}
+            </div>
+        {%  endif %}
+    </div>
 
     </div>
 {% endblock %}

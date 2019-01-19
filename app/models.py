@@ -45,8 +45,9 @@ class Artist(UserMixin, db.Model):
             digest, size)
 
     def is_in(self, group):
-        return self.groups.filter(
-            members.c.artist_id == group.id).count() > 0
+        return db.session.query(members).filter_by(
+                group_id=group.id,
+                artist_id=self.id).count() > 0
 
     def join_group(self, group):
         if not self.is_in(group):
@@ -122,6 +123,10 @@ class Post(db.Model):
     post_author =  db.Column(
         db.Integer, db.ForeignKey('artist.id'), nullable=True
     )
+
+    def get_author(self):
+        return Artist.query.get(self.post_author)
+
 
 @login.user_loader
 def load_user(id):
