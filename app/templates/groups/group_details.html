@@ -1,18 +1,31 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    {{ super() }}
+<head>
+    <title>{{ title }} | The Artist Network | </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style2.css') }}" rel="stylesheet" type= "text/css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+{% endblock %}
+
+
 {% block content %}
     <div class="container">
-        <h2>{{ group.groupName }}</h2>
+        <h1>{{ group.groupName }}</h1>
         <h4>Description:</h4>
         </br>
-        <p> {{ group.groupDescription }} </p>
+        <p style="color: #F6F8ED;"> {{ group.groupDescription }} </p>
         </br>
         {% if user.is_in(group) %}
             <a href="{{ url_for('add_event', group=group.groupName) }}">
-            <p> Add event</p>
+            <p style="color: #F6F8ED;"> Add event</p>
         </a>
         {% endif %}
-        <table class="table table-stripped">
+        <table>
+        <div class="content-section2">
         <thead>
             <th> Name </th>
             <th> About me </th>
@@ -27,6 +40,8 @@
                 <td> {{ member.aboutMe}} </td>
               </tr>
           {% endfor %}
+            </div>
+        </div>
     </table>
     </br>
     <div class="row border">
@@ -70,6 +85,5 @@
             </div>
         {%  endif %}
     </div>
-
     </div>
 {% endblock %}
