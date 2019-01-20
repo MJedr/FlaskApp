@@ -26,5 +26,4 @@ Design
     - Dodać do templatki base.html jakieś marginy dla głównego diva z treścią bo to wygląda tragicznie
         - działa np na widokach list, ale przydałoby się to zrobić odgórnie
  	-about me nie działa div container (ciągle jest po lewej)
-	-wielkość pola w add event 
 	- index - czmu się nie wyświetla ten tekst
