@@ -1,9 +1,23 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    {{ super() }}
+<head>
+    <title>{{ title }} | The Artist Network | </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style2.css') }}" rel="stylesheet" type= "text/css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+</head>
+{% endblock %}
+
+
 {% block content %}
+    <h1>List of all events</h1>
     <div class="container">
-    <h2>List of all events</h2>
-    <table class="table table-striped">
+    <table>
+    <div class="content-section2">
+    <div class="center">
         <thead>
         <th> Name </th>
         <th> Group </th>
@@ -13,7 +27,7 @@
         {% for event in events %}
             <tr>
                 <td>
-                    <a href={{ url_for('event_details', eventname=event.eventName) }} >
+                    <a style="color: #2a2b28;" href={{ url_for('event_details', eventname=event.eventName) }} >
                         {{ event.eventName }}
                     </a>
                 </td>
@@ -26,6 +40,8 @@
                 <td> {{ event.location }} </td>
             </tr>
         {% endfor %}
+        </div>
+    </div>
     </table>
     </div>
 {% endblock %}
