@@ -40,7 +40,11 @@
     <div class="container">
     {% block content %}
         <div class="page.header">
+        {% if current_user.is_authenticated %}
             <h1>Hello, {{ current_user.username }}!</h1>
+        {% else %}
+            <h1>Hello!</h1>
+        {% endif %}
         </div>
     {% endblock %}
     </div>

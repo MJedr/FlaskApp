@@ -1,19 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <table>
-        <tr valign="top">
-            <td><img src="{{ user.avatar(128) }}"></td>
-        </tr>
-    </table>
-    <h1>User: {{ user.username }}</h1>
-    <hr>
-    <p>
-    {{ user.username }} </b><br>
-        <br>
-        About me: <br>
-        {{ user.aboutMe}}
-        <br>
-        Last activity: {{ user.last_seen }}
-    </p>
+    <div class="container">
+
+        <table>
+            <tr>
+            <tr valign="top">
+                <img src="{{ user.avatar(128) }}">
+            </tr>
+        </table>
+        <table>
+            <h1>User: {{ user.username }}</h1>
+            <tr>
+                <b>{{ user.username }} </b>
+            </tr>
+            <tr>
+                <td>About me: {{ user.aboutMe }}</td>
+            </tr>
+            <tr>
+                <td> Last activity: {{ user.last_seen }} </td>
+            </tr>
+            <tr>
+
+            </tr>
+            <tr>
+                <td><a href={{ url_for('edit_profile', username=user.username) }}>
+                    Edit profile </a>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+
 {% endblock %}

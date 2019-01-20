@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div class="container">
     <br class="container">
         <h2>{{ event.eventName }}</h2>
         <h4>Venue: {{ event.location }}</h4>
@@ -9,5 +10,5 @@
         <h4>Description:</h4>
         </br>
         <p> {{ event.eventDescription }} </p>
-
+    </div>
 {% endblock %}
