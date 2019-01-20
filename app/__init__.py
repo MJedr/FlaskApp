@@ -119,6 +119,7 @@ def create_app(config_name):
                 group = Group(groupName=form.groupname.data,
                               groupDescription=form.description.data,
                               admin=current_user.id)
+                current_user.join_group(group)
                 db.session.add(group)
                 db.session.commit()
                 flash('You have succesfully created a group')
@@ -148,6 +149,7 @@ def create_app(config_name):
     @login_required
     def edit_profile():
         form = EditProfileForm(current_user.username)
+        user=current_user
         if form.validate_on_submit():
             current_user.username = form.username.data
             current_user.aboutMe = form.about_me.data
@@ -158,7 +160,7 @@ def create_app(config_name):
             form.username.data = current_user.username
             form.about_me.data = current_user.aboutMe
         return render_template('edit_profile.html', title='Edit Profile',
-                               form=form)
+                               form=form, user=user)
 
     @app.errorhandler(401)
     def unauthorized_error(error):
