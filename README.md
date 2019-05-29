@@ -7,7 +7,7 @@ to create and join an interesting music events etc.
   
 The design of the app is based on bootstrap template, but front-end was not a main objective of the project.  
 
-<img src="static/ex1.png" alt="Page design"/>
+<img src="https://github.com/MJedr/FlaskApp/blob/master/static/ex1.PNG" />
   
 ## Getting started
 ### Prerequistes
