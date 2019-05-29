@@ -1,4 +1,4 @@
-﻿Grupy
+Grupy
     - informacja w liście i w group_detail jeśli jesteś adminem grupy
     - jeśli jesteś adminem grupy to opcja usuwania członków
     - zablokować opcje dodawania do grupy więcej niż raz
@@ -25,5 +25,3 @@ Design
     - Przenieść posty na prawo (googluj css float container + ew bootstrap)
     - Dodać do templatki base.html jakieś marginy dla głównego diva z treścią bo to wygląda tragicznie
         - działa np na widokach list, ale przydałoby się to zrobić odgórnie
- 	-about me nie działa div container (ciągle jest po lewej)
-	- index - czmu się nie wyświetla ten tekst

@@ -75,8 +75,11 @@ p.copyright {
     color: #2a2b28;
     padding: 50px 0;
     background-color: #f7f7f7;
+    height: 60%;
     margin: auto;
-    opacity: 0.9;
+    width: 90%;
+    opacity: 0.6;
+
 }
 
 .content-section2 {

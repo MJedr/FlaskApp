@@ -21,17 +21,8 @@
     </div>
 </div>
 {% endblock %}
-{% block page_content %}
-    <div class="jumbotron jumbotron-fluid">
-  <h1>Hello, world!</h1>
-  <p>This is the artist networking page</p>
-    <div class="container">
-        <table>
-            <tr><h4>This is the artist networking page.</h4></tr>
-            <tr>If you want to find event, please click <a href="/groups"> there </a>.</tr>
-            <tr>If you want to join or create a fantasitc group, click <a href="/events">there </a>.</tr>
-    </table>
-        </div>
-    </div>
+{% block content %}
+<div class="container">
+{% block page_content %}{% endblock %}
+</div>
 {% endblock %}
-

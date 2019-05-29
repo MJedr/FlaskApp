@@ -1,6 +1,6 @@
 body, html {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
 }
 
 h1 {
@@ -37,9 +37,8 @@ h4 {
 
 
 body {
-    background: url(../img/intro2.jpg) no-repeat bottom center;
+    background: url(../img/intro2.jpg) no-repeat center center;
     background-size: cover;
-    background-color: #000000;
     height: 100%;
 }
 
@@ -69,7 +68,7 @@ th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #1e4f4a;
+    background-color: #ba6a0e;
     color: white;
 }
 
@@ -90,6 +89,7 @@ th {
     top: -50px;
     font-size: 120%;
     color: #0d0d0d;
+    padding: 50px 0;
     height: 60%;
     margin: auto;
     width: 90%;
@@ -99,12 +99,8 @@ th {
 }
 
 
-.navbar .navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
+a, .navbar .navbar-default .navbar-brand, .navbar-default .navbar-nav>li>a {
   color: #F6F8ED;
-}
-
-a {
-
 }
 
 a:hover, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:hover {

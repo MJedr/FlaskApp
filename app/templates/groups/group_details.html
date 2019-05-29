@@ -34,7 +34,7 @@
           {% for member in group.get_members() %}
               <tr>
                <td>
-                   <a href={{ url_for('user_details', username=member.username) }} >
+                   <a style="color: #F6F8ED;" href={{ url_for('user_details', username=member.username) }} >
                    {{ member.username }}</a>
                </td>
                 <td> {{ member.aboutMe}} </td>

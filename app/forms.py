@@ -54,7 +54,7 @@ class AddEventForm(FlaskForm):
     eventname = StringField('Name', validators=[DataRequired()])
     date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired("Please enter the event fate in format YYYY-MM-DD.")])
     location = StringField('Venue', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
     price = BooleanField('Free', validators=[DataRequired()])
     submit = SubmitField('Create')
 
