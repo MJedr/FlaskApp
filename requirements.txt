@@ -3,3 +3,7 @@ flask_login
 flask_migrate
 flask_wtf
 flask_bootstrap
+hashlib
+Werkzeug
+sqlalchemy
+logging
